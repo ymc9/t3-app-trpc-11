@@ -13,6 +13,7 @@ datasource db {
 plugin trpc {
     provider = "@zenstackhq/trpc"
     output = "src/server/api/routers/generated"
+    generateClientHelpers = 'next'
 }
 
 model Post {

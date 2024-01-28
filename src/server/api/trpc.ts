@@ -9,7 +9,7 @@
 import { initTRPC } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
-import { ZodError } from "zod";
+import { ZodError, z } from "zod";
 
 import { db } from "~/server/db";
 
@@ -93,3 +93,33 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+const userSessionInput = z.object({ __userSessionId: z.string().optional() });
+export const procWithUserSessionInput = t.procedure.input(userSessionInput);
+
+t.router({
+  x: procWithUserSessionInput
+    .input(z.object({ a: z.string() }))
+    .query((arg) => {
+      return arg.input.__userSessionId;
+    }),
+});
+
+export const withAuthProc = procWithUserSessionInput.use((opts) => {
+  const { __userSessionId } = opts.input;
+
+  if (!__userSessionId) {
+    return opts.next({
+      ctx: { db, session: null },
+    });
+  }
+
+  // Here we delete this key to avoid the '.strict()' thing
+  delete opts.input.__userSessionId;
+  return opts.next({
+    ctx: {
+      ...opts.ctx,
+      session: { id: __userSessionId },
+    },
+  });
+});

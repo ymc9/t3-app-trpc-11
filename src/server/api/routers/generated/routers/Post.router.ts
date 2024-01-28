@@ -1,137 +1,91 @@
 /* eslint-disable */
-import { type RouterFactory, type ProcBuilder, type BaseConfig, type ProcReturns, type PrismaClient, db } from '.';
-import $Schema from '@zenstackhq/runtime/zod/input';
-import { checkRead, checkMutate } from '../helper';
+import $Schema from "@zenstackhq/runtime/zod/input";
+import { db, type BaseConfig, type ProcBuilder, type RouterFactory } from ".";
+import { checkMutate, checkRead } from "../helper";
 
-export default function createRouter<Router extends RouterFactory<BaseConfig>, Proc extends ProcBuilder<BaseConfig>>(
-    router: Router,
-    procedure: Proc,
+export default function createRouter<Config extends BaseConfig>(
+  router: RouterFactory<Config>,
+  procedure: ProcBuilder<Config>,
 ) {
-    return router({
-        aggregate: procedure
-            .input($Schema.PostInputSchema.aggregate)
-            .query(({ ctx, input }) => checkRead(db(ctx).post.aggregate(input as any))) as ProcReturns<
-            'query',
-            Proc,
-            (typeof $Schema.PostInputSchema)['aggregate'],
-            ReturnType<PrismaClient['post']['aggregate']>
-        >,
+  return router({
+    aggregate: procedure
+      .input($Schema.PostInputSchema.aggregate)
+      .query(({ ctx, input }) =>
+        checkRead(db(ctx).post.aggregate(input as any)),
+      ),
 
-        create: procedure
-            .input($Schema.PostInputSchema.create)
-            .mutation(async ({ ctx, input }) => checkMutate(db(ctx).post.create(input as any))) as ProcReturns<
-            'mutation',
-            Proc,
-            (typeof $Schema.PostInputSchema)['create'],
-            ReturnType<PrismaClient['post']['create']>
-        >,
+    create: procedure
+      .input($Schema.PostInputSchema.create)
+      .mutation(async ({ ctx, input }) =>
+        checkMutate(db(ctx).post.create(input as any)),
+      ),
 
-        deleteMany: procedure
-            .input($Schema.PostInputSchema.deleteMany)
-            .mutation(async ({ ctx, input }) => checkMutate(db(ctx).post.deleteMany(input as any))) as ProcReturns<
-            'mutation',
-            Proc,
-            (typeof $Schema.PostInputSchema)['deleteMany'],
-            ReturnType<PrismaClient['post']['deleteMany']>
-        >,
+    deleteMany: procedure
+      .input($Schema.PostInputSchema.deleteMany)
+      .mutation(async ({ ctx, input }) =>
+        checkMutate(db(ctx).post.deleteMany(input as any)),
+      ),
 
-        delete: procedure
-            .input($Schema.PostInputSchema.delete)
-            .mutation(async ({ ctx, input }) => checkMutate(db(ctx).post.delete(input as any))) as ProcReturns<
-            'mutation',
-            Proc,
-            (typeof $Schema.PostInputSchema)['delete'],
-            ReturnType<PrismaClient['post']['delete']>
-        >,
+    delete: procedure
+      .input($Schema.PostInputSchema.delete)
+      .mutation(async ({ ctx, input }) =>
+        checkMutate(db(ctx).post.delete(input as any)),
+      ),
 
-        findFirst: procedure
-            .input($Schema.PostInputSchema.findFirst)
-            .query(({ ctx, input }) => checkRead(db(ctx).post.findFirst(input as any))) as ProcReturns<
-            'query',
-            Proc,
-            (typeof $Schema.PostInputSchema)['findFirst'],
-            ReturnType<PrismaClient['post']['findFirst']>
-        >,
+    findFirst: procedure
+      .input($Schema.PostInputSchema.findFirst)
+      .query(({ ctx, input }) =>
+        checkRead(db(ctx).post.findFirst(input as any)),
+      ),
 
-        findFirstOrThrow: procedure
-            .input($Schema.PostInputSchema.findFirst)
-            .query(({ ctx, input }) => checkRead(db(ctx).post.findFirstOrThrow(input as any))) as ProcReturns<
-            'query',
-            Proc,
-            (typeof $Schema.PostInputSchema)['findFirst'],
-            ReturnType<PrismaClient['post']['findFirstOrThrow']>
-        >,
+    findFirstOrThrow: procedure
+      .input($Schema.PostInputSchema.findFirst)
+      .query(({ ctx, input }) =>
+        checkRead(db(ctx).post.findFirstOrThrow(input as any)),
+      ),
 
-        findMany: procedure
-            .input($Schema.PostInputSchema.findMany)
-            .query(({ ctx, input }) => checkRead(db(ctx).post.findMany(input as any))) as ProcReturns<
-            'query',
-            Proc,
-            (typeof $Schema.PostInputSchema)['findMany'],
-            ReturnType<PrismaClient['post']['findMany']>
-        >,
+    findMany: procedure
+      .input($Schema.PostInputSchema.findMany)
+      .query(({ ctx, input }) =>
+        checkRead(db(ctx).post.findMany(input as any)),
+      ),
 
-        findUnique: procedure
-            .input($Schema.PostInputSchema.findUnique)
-            .query(({ ctx, input }) => checkRead(db(ctx).post.findUnique(input as any))) as ProcReturns<
-            'query',
-            Proc,
-            (typeof $Schema.PostInputSchema)['findUnique'],
-            ReturnType<PrismaClient['post']['findUnique']>
-        >,
+    findUnique: procedure
+      .input($Schema.PostInputSchema.findUnique)
+      .query(({ ctx, input }) =>
+        checkRead(db(ctx).post.findUnique(input as any)),
+      ),
 
-        findUniqueOrThrow: procedure
-            .input($Schema.PostInputSchema.findUnique)
-            .query(({ ctx, input }) => checkRead(db(ctx).post.findUniqueOrThrow(input as any))) as ProcReturns<
-            'query',
-            Proc,
-            (typeof $Schema.PostInputSchema)['findUnique'],
-            ReturnType<PrismaClient['post']['findUniqueOrThrow']>
-        >,
+    findUniqueOrThrow: procedure
+      .input($Schema.PostInputSchema.findUnique)
+      .query(({ ctx, input }) =>
+        checkRead(db(ctx).post.findUniqueOrThrow(input as any)),
+      ),
 
-        groupBy: procedure
-            .input($Schema.PostInputSchema.groupBy)
-            .query(({ ctx, input }) => checkRead(db(ctx).post.groupBy(input as any))) as ProcReturns<
-            'query',
-            Proc,
-            (typeof $Schema.PostInputSchema)['groupBy'],
-            ReturnType<PrismaClient['post']['groupBy']>
-        >,
+    groupBy: procedure
+      .input($Schema.PostInputSchema.groupBy)
+      .query(({ ctx, input }) => checkRead(db(ctx).post.groupBy(input as any))),
 
-        updateMany: procedure
-            .input($Schema.PostInputSchema.updateMany)
-            .mutation(async ({ ctx, input }) => checkMutate(db(ctx).post.updateMany(input as any))) as ProcReturns<
-            'mutation',
-            Proc,
-            (typeof $Schema.PostInputSchema)['updateMany'],
-            ReturnType<PrismaClient['post']['updateMany']>
-        >,
+    updateMany: procedure
+      .input($Schema.PostInputSchema.updateMany)
+      .mutation(async ({ ctx, input }) =>
+        checkMutate(db(ctx).post.updateMany(input as any)),
+      ),
 
-        update: procedure
-            .input($Schema.PostInputSchema.update)
-            .mutation(async ({ ctx, input }) => checkMutate(db(ctx).post.update(input as any))) as ProcReturns<
-            'mutation',
-            Proc,
-            (typeof $Schema.PostInputSchema)['update'],
-            ReturnType<PrismaClient['post']['update']>
-        >,
+    update: procedure
+      .input($Schema.PostInputSchema.update)
+      .mutation(async ({ ctx, input }) =>
+        checkMutate(db(ctx).post.update(input as any)),
+      ),
 
-        upsert: procedure
-            .input($Schema.PostInputSchema.upsert)
-            .mutation(async ({ ctx, input }) => checkMutate(db(ctx).post.upsert(input as any))) as ProcReturns<
-            'mutation',
-            Proc,
-            (typeof $Schema.PostInputSchema)['upsert'],
-            ReturnType<PrismaClient['post']['upsert']>
-        >,
+    upsert: procedure
+      .input($Schema.PostInputSchema.upsert)
+      .mutation(async ({ ctx, input }) =>
+        checkMutate(db(ctx).post.upsert(input as any)),
+      ),
 
-        count: procedure
-            .input($Schema.PostInputSchema.count)
-            .query(({ ctx, input }) => checkRead(db(ctx).post.count(input as any))) as ProcReturns<
-            'query',
-            Proc,
-            (typeof $Schema.PostInputSchema)['count'],
-            ReturnType<PrismaClient['post']['count']>
-        >,
-    });
+    count: procedure
+      .input($Schema.PostInputSchema.count)
+      .query(({ ctx, input }) => checkRead(db(ctx).post.count(input as any))),
+  });
 }

@@ -4,7 +4,9 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const post = api.post.findFirst.useQuery({});
+  const post = api.post.findFirst.useQuery({
+    select: { id: true, name: true },
+  });
 
   return (
     <>

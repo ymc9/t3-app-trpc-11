@@ -1,6 +1,9 @@
 /* eslint-disable */
 import { type PrismaClient } from "@prisma/client";
-import { type TRPCProcedureRouterRecord as ProcedureRouterRecord } from "@trpc/server";
+import {
+  AnyTRPCRouter,
+  type TRPCProcedureRouterRecord as ProcedureRouterRecord,
+} from "@trpc/server";
 import {
   unsetMarker,
   type AnyRootTypes,
@@ -8,6 +11,7 @@ import {
   type ProcedureBuilder,
 } from "@trpc/server/unstable-core-do-not-import";
 import createPostRouter from "./Post.router";
+import type { ClientType as PostClientType } from "./Post.router";
 
 export type BaseConfig = AnyRootTypes;
 
@@ -43,4 +47,8 @@ export function createRouter<Config extends BaseConfig>(
   return router({
     post: createPostRouter(router, procedure),
   });
+}
+
+export interface ClientType<AppRouter extends AnyTRPCRouter> {
+  post: PostClientType<AppRouter>;
 }

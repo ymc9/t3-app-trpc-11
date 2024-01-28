@@ -1,27 +1,32 @@
 /* eslint-disable */
 import { type PrismaClient } from "@prisma/client";
+import { type TRPCProcedureRouterRecord as ProcedureRouterRecord } from "@trpc/server";
 import {
-  ProcedureParams,
   unsetMarker,
-  type AnyRootConfig,
-  type CreateRouterInner,
+  type AnyRootTypes,
+  type BuiltRouter,
   type ProcedureBuilder,
-  type ProcedureRouterRecord,
-} from "@trpc/server";
+} from "@trpc/server/unstable-core-do-not-import";
 import createPostRouter from "./Post.router";
 
-export type BaseConfig = AnyRootConfig;
+export type BaseConfig = AnyRootTypes;
 
 export type RouterFactory<Config extends BaseConfig> = <
   ProcRouterRecord extends ProcedureRouterRecord,
 >(
   procedures: ProcRouterRecord,
-) => CreateRouterInner<Config, ProcRouterRecord>;
+) => BuiltRouter<Config, ProcRouterRecord>;
 
 export type UnsetMarker = typeof unsetMarker;
 
 export type ProcBuilder<Config extends BaseConfig> = ProcedureBuilder<
-  ProcedureParams<Config, any, any, any, UnsetMarker, UnsetMarker, any>
+  Config["ctx"],
+  any,
+  any,
+  any,
+  any,
+  UnsetMarker,
+  UnsetMarker
 >;
 
 export function db(ctx: any) {
